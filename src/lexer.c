@@ -1,134 +1,153 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
-int line = 1;
+#include <ctype.h>
+
+#define MAX_TOKEN_LENGTH 100
+
 // Token types
 enum TokenType {
-    TOKEN_INT,
-    TOKEN_PLUS,
-    TOKEN_MINUS,
-    TOKEN_IDENTIFIER,
-    TOKEN_LOOP,
-    TOKEN_INIT,
-    TOKEN_EOF
+    INIT,
+    TIME,
+    NUMBER,
+    SEMICOLON,
+    END_OF_PROGRAM,
+    NAVIGATOR,
+    INVALID
 };
 
-// Token structure
+// Structure to represent a token
 struct Token {
     enum TokenType type;
-    int value; // Only used for TOKEN_INT
-    char identifier[256]; // Only used for TOKEN_IDENTIFIER
+    char lexeme[MAX_TOKEN_LENGTH];
 };
 
-// Global variables
-char *input;
-int current_pos = 0;
+// Function to check if a string is a keyword
 
-// Function to initialize the lexer
-void init_lexer(char *text) {
-    input = text;
+int isInit(char* str) {
+    char* time[] = {
+         "programa_SOL", NULL
+    };
+    for (int i = 0; time[i] != NULL; i++) {
+        if (strcmp(str, time[i]) == 0) {
+            return 1;
+        }
+    }
+    return 0;
 }
 
-// Function to get the next token from the input
-struct Token get_next_token() {
+int isNavigator(char* str) {
+    char* time[] = {
+         "navegador", NULL
+    };
+    for (int i = 0; time[i] != NULL; i++) {
+        if (strcmp(str, time[i]) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+int isTime(char* str) {
+    char* time[] = {
+         "20_min", "1_hora", "1_dia", "2_dias", "sem_limite", "15_min", NULL
+    };
+    for (int i = 0; time[i] != NULL; i++) {
+        if (strcmp(str, time[i]) == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+
+// Function to tokenize the input
+struct Token getNextToken(FILE* inputFile) {
     struct Token token;
-    char current_char;
+    int c;
+    int index = 0;
 
-    // Skip whitespace
-    while (isspace(input[current_pos])) {
-         if (input[current_pos] == '\n') {
-            line ++;
-        } else if (input[current_pos] == '\t') {
-            
-        }
-        current_pos++;
+    // Skip leading whitespace and tabulation
+    do {
+        c = fgetc(inputFile);
+    } while (c == ' ' || c == '\t');
+
+    // Handle end of file
+    if (c == EOF) {
+        token.type = END_OF_PROGRAM;
+        strcpy(token.lexeme, "");
+        return token;
     }
 
-    current_char = input[current_pos];
-
-    if (current_char == '\0') {
-        token.type = TOKEN_EOF;
-    } else if (isdigit(current_char)) {
-        // Parse an integer
-        int value = 0;
-        while (isdigit(input[current_pos])) {
-            value = value * 10 + (input[current_pos] - '0');
-            current_pos++;
-        }
-        token.type = TOKEN_INT;
-        token.value = value;
-    } else if (current_char == '+') {
-        token.type = TOKEN_PLUS;
-        current_pos++;
-    } else if (current_char == '-') {
-        token.type = TOKEN_MINUS;
-        current_pos++;
-    } else if (isalpha(current_char)) {
-        // Parse an identifier or keyword
-        int i = 0;
-        while (isalnum(current_char)  || current_char == '_') {
-            token.identifier[i] = current_char;
-            i++;
-            current_pos++;
-            current_char = input[current_pos];
-        }
-        token.identifier[i] = '\0';
-
-        // Check if it's a keyword (e.g., "if" or "while")
-        if (strcmp(token.identifier, "if") == 0) {
-            // It's a keyword
-            token.type = TOKEN_IDENTIFIER;
-        } else if (strcmp(token.identifier, "loop") == 0) {
-            // It's a keyword
-            token.type = TOKEN_LOOP;
-
-
-        } 
-        else if (strcmp(token.identifier, "programa_SOL") == 0) {
-            // It's a keyword
-            token.type = TOKEN_INIT;
-        }
-
-        else {
-            // It's an identifier
-            token.type = TOKEN_IDENTIFIER;
-        }
-    } else {
-        // Invalid character
-        printf("Error: Invalid character '%c'\n", current_char);
-        exit(1);
+    // Check for a semicolon
+    if (c == ';') {
+        token.type = SEMICOLON;
+        strcpy(token.lexeme, ";");
+        return token;
     }
+
+    // Read the token
+    while (c != ' ' && c != '\t' && c != ';' && c != EOF && index < MAX_TOKEN_LENGTH - 1) {
+        token.lexeme[index++] = c;
+        c = fgetc(inputFile);
+    }
+    token.lexeme[index] = '\0';
+
+    // Check if it's a keyword or a number
+    if (isTime(token.lexeme)) {
+        token.type = TIME;
+    }
+    else if(isInit(token.lexeme)){
+
+        token.type = INIT;
+    }
+
+     else if(isNavigator(token.lexeme)){
+
+        token.type = NAVIGATOR;
+    }
+    
+    else {
+        // Check if it's a number
+        int isNumber = 1;
+        for (int i = 0; i < strlen(token.lexeme); i++) {
+            if (!isdigit(token.lexeme[i])) {
+                isNumber = 0;
+                break;
+            }
+        }
+        token.type = isNumber ? NUMBER : INVALID;
+    }
+
+    // Unget the last character (not part of the token)
+    ungetc(c, inputFile);
 
     return token;
 }
 
 int main() {
-    char input_text[] = "12 \n loop programa_SOL";
-
-    init_lexer(input_text);
+    FILE* inputFile = fopen("input.txt", "r");
+    if (inputFile == NULL) {
+        perror("Error opening file");
+        return 1;
+    }
 
     struct Token token;
-    do {
-        token = get_next_token();
-        switch (token.type) {
-            case TOKEN_INT:
-                printf("TOKEN_INT: %d   %d \n", token.value, line);
-                break;
-            case TOKEN_IDENTIFIER:
-                printf("TOKEN_IDENTIFIER: %s   line: %d\n ", token.identifier, line);
-                break;
-            case TOKEN_LOOP:
-                printf("TOKEN_LOOP: %s   line: %d\n ", token.identifier, line);
-                break;
-             case TOKEN_INIT:
-                printf("TOKEN_INIT: %s   line: %d\n ", token.identifier, line);
-                break;
-            case TOKEN_EOF:
-                printf("TOKEN_EOF\n");
-                break;
-        }
-    } while (token.type != TOKEN_EOF);
 
+    while (1) {
+        token = getNextToken(inputFile);
+
+        if (token.type == END_OF_PROGRAM) {
+            printf("End of program.\n");
+            break;
+        } else if (token.type == INVALID) {
+            printf("Invalid token: %s\n", token.lexeme);
+        } else {
+            printf("Token type: %d, Lexeme: %s\n", token.type, token.lexeme);
+        }
+    }
+
+    fclose(inputFile);
     return 0;
 }
