@@ -5,7 +5,7 @@
 
 #define MAX_TOKEN_LENGTH 100
 
-// Token types
+
 enum TokenType {
     INIT,
     TIME,
@@ -16,13 +16,13 @@ enum TokenType {
     INVALID
 };
 
-// Structure to represent a token
+
 struct Token {
     enum TokenType type;
     char lexeme[MAX_TOKEN_LENGTH];
 };
 
-// Function to check if a string is a keyword
+
 
 int isInit(char* str) {
     char* time[] = {
@@ -62,39 +62,39 @@ int isTime(char* str) {
 }
 
 
-// Function to tokenize the input
+
 struct Token getNextToken(FILE* inputFile) {
     struct Token token;
     int c;
     int index = 0;
 
-    // Skip leading whitespace and tabulation
+    
     do {
         c = fgetc(inputFile);
     } while (c == ' ' || c == '\t');
 
-    // Handle end of file
+
     if (c == EOF) {
         token.type = END_OF_PROGRAM;
         strcpy(token.lexeme, "");
         return token;
     }
 
-    // Check for a semicolon
+   
     if (c == ';') {
         token.type = SEMICOLON;
         strcpy(token.lexeme, ";");
         return token;
     }
 
-    // Read the token
+
     while (c != ' ' && c != '\t' && c != ';' && c != EOF && index < MAX_TOKEN_LENGTH - 1) {
         token.lexeme[index++] = c;
         c = fgetc(inputFile);
     }
     token.lexeme[index] = '\0';
 
-    // Check if it's a keyword or a number
+  
     if (isTime(token.lexeme)) {
         token.type = TIME;
     }
@@ -109,7 +109,7 @@ struct Token getNextToken(FILE* inputFile) {
     }
     
     else {
-        // Check if it's a number
+       
         int isNumber = 1;
         for (int i = 0; i < strlen(token.lexeme); i++) {
             if (!isdigit(token.lexeme[i])) {
@@ -120,7 +120,7 @@ struct Token getNextToken(FILE* inputFile) {
         token.type = isNumber ? NUMBER : INVALID;
     }
 
-    // Unget the last character (not part of the token)
+   
     ungetc(c, inputFile);
 
     return token;
