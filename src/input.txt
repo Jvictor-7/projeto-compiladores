@@ -1,1 +1,3 @@
-navegador endereço_meet 20_min;
+navegador 20_min; 
+navegador;
+1_hora

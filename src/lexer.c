@@ -13,6 +13,7 @@ enum TokenType {
     SEMICOLON,
     END_OF_PROGRAM,
     NAVIGATOR,
+    NEWLINE,
     INVALID
 };
 
@@ -71,7 +72,7 @@ struct Token getNextToken(FILE* inputFile) {
     
     do {
         c = fgetc(inputFile);
-    } while (c == ' ' || c == '\t');
+    } while (c == ' ' || c == '\t' || c == '\n');
 
 
     if (c == EOF) {
@@ -83,18 +84,25 @@ struct Token getNextToken(FILE* inputFile) {
    
     if (c == ';') {
         token.type = SEMICOLON;
+        
         strcpy(token.lexeme, ";");
         return token;
     }
+    
 
 
-    while (c != ' ' && c != '\t' && c != ';' && c != EOF && index < MAX_TOKEN_LENGTH - 1) {
+      while (c != ' ' && c != '\t' && c != ';' && c != '\n' && c != EOF && index < MAX_TOKEN_LENGTH - 1) {
         token.lexeme[index++] = c;
         c = fgetc(inputFile);
     }
     token.lexeme[index] = '\0';
 
-  
+    if (c == '\n') {
+            
+            token.type = NEWLINE;
+            strcpy(token.lexeme, "\n");
+            return token;
+        }
     if (isTime(token.lexeme)) {
         token.type = TIME;
     }
@@ -107,6 +115,7 @@ struct Token getNextToken(FILE* inputFile) {
 
         token.type = NAVIGATOR;
     }
+    
     
     else {
        
@@ -141,7 +150,11 @@ int main() {
         if (token.type == END_OF_PROGRAM) {
             printf("End of program.\n");
             break;
-        } else if (token.type == INVALID) {
+        } 
+        else if(token.type == NEWLINE){
+            printf("breakline\n");
+        }
+        else if (token.type == INVALID) {
             printf("Invalid token: %s\n", token.lexeme);
         } else {
             printf("Token type: %d, Lexeme: %s\n", token.type, token.lexeme);
