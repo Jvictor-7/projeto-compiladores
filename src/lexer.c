@@ -75,6 +75,21 @@ struct Token getNextToken(FILE* inputFile) {
     } while (c == ' ' || c == '\t' || c == '\n');
 
 
+    if (c == '/') {
+            int nextChar = fgetc(inputFile);
+            if (nextChar == '/') {
+                
+                while (c != '\n' ) {
+                    c = fgetc(inputFile);
+                    if(c == EOF) break;
+                }
+            }
+            else {
+                ungetc(nextChar, inputFile);
+                
+            }
+    }
+
     if (c == EOF) {
         token.type = END_OF_PROGRAM;
         strcpy(token.lexeme, "");
