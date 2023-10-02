@@ -10,7 +10,12 @@ char* tokenName[] = {
     "NAVIGATOR",
     "NEWLINE",
     "INVALID",
-    "LOOP"
+    "LOOP",
+    "LINK_VIDEO",
+    "LINK_VIDEOCONFERENCIA",
+    "LINK_PDF",
+    "LINK_WHATSAPP",
+    "LINK_EMAIL"
 };
 
 int main() {
@@ -46,6 +51,7 @@ int main() {
 
         tokenSize++;
     }
+    
     fclose(inputFile);
 
     // --- PARSER --- 

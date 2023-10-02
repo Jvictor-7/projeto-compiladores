@@ -1,5 +1,4 @@
-loop;
-navegador                 1_hora;
-navegador  1;
-
-5;
+loop 2 chrome 20_min;
+chrome link_pdf;
+chrome link_email;
+chrome link_email;

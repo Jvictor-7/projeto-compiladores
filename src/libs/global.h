@@ -9,6 +9,9 @@
 #define MAX_TOKEN_LENGTH 999
 #define SYMMAX 100
 
+#define TRUE 1
+#define FALSE 0
+
 enum TokenType {
     INIT,
     TIME,
@@ -18,7 +21,12 @@ enum TokenType {
     NAVIGATOR,
     NEWLINE,
     INVALID,
-    LOOP
+    LOOP,
+    LINK_VIDEO,
+    LINK_VIDEOCONFERENCIA,
+    LINK_PDF,
+    LINK_WHATSAPP,
+    LINK_EMAIL,
 };
 
 typedef struct Token {

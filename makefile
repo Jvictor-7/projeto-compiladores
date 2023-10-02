@@ -8,9 +8,11 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Ideps
 
 # Arquivos fonte
-SRCS = src/main.c \
+SRCS = src/deps/error.c \
        src/deps/lexer.c \
-       src/deps/parser.c
+       src/deps/parser.c \
+	   src/main.c \
+       
 
 # Objetos gerados
 OBJS = $(SRCS:.c=.o)

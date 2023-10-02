@@ -14,7 +14,7 @@
 
 int isNavigator(char* str) {
     char* time[] = {
-         "navegador", NULL
+         "chrome", "edge", NULL
     };
     for (int i = 0; time[i] != NULL; i++) {
         if (strcmp(str, time[i]) == 0) {
@@ -87,20 +87,34 @@ Token getNextToken(FILE* inputFile) {
     token.lexeme[index] = '\0';
 
     if (c == '\n') {
-            
         token.type = NEWLINE;
         strcpy(token.lexeme, "\n");
         return token;
     }
 
-    if (isTime(token.lexeme)) {
+    if(strcmp(token.lexeme,"link_pdf") == 0){
+        token.type = LINK_PDF;
+    }
+    else if(strcmp(token.lexeme,"link_video") == 0){
+        token.type = LINK_VIDEO;
+    }
+    else if(strcmp(token.lexeme,"link_whatsapp") == 0){
+        token.type = LINK_WHATSAPP;
+    }
+    else if(strcmp(token.lexeme,"link_videoconferencia") == 0){
+        token.type = LINK_VIDEOCONFERENCIA;
+    }
+    else if(strcmp(token.lexeme,"link_email") == 0){
+        token.type = LINK_EMAIL;
+    }
+    else if (isTime(token.lexeme)) {
         token.type = TIME;
     }
     // else if(isInit(token.lexeme)) {
     //     token.type = INIT;
     // }
 
-     else if(isNavigator(token.lexeme)){
+    else if(isNavigator(token.lexeme)){
         token.type = NAVIGATOR;
     }
     else if(!strcmp(token.lexeme, "loop"))
