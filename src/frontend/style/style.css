@@ -1,0 +1,48 @@
+
+
+
+h1{
+    padding-top: 20px;
+    text-align: center;
+    color: blueviolet;
+}
+
+body{
+    height: 100vh;
+    background-color: #f6F9FF;
+    
+}
+#interpretar{
+    margin-top: 5px;
+}
+.card{
+    align-items: center;
+    height: 30%;
+    font-display: flex;
+    margin: 130px;
+    border:1px solid blueviolet;
+    border-radius: 8px;
+    background-color: #fffffffd;
+}
+#code{
+   margin-top: 5%;
+   width: 50%;
+   height: 50%;
+   border-radius: 8px;
+   border:2px solid blueviolet;
+   background-color: #fffffffd;
+   outline: none;
+}
+
+
+.card-analise{
+    min-height: 150px;
+    text-align: center;
+    align-items: center;
+    height: auto;
+    font-display: flex;
+    margin: 130px;
+    border:1px solid blueviolet;
+    border-radius: 8px;
+    background-color: #fffffffd;
+}
