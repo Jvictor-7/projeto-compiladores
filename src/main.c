@@ -19,7 +19,7 @@ char* tokenName[] = {
 };
 
 int main() {
-    FILE* inputFile = fopen("input.txt", "r");
+    FILE* inputFile = fopen("test_codes/programa3.txt", "r");
     if (inputFile == NULL) {
         perror("Error opening file");
         return 1;
@@ -29,10 +29,6 @@ int main() {
 
     int tokenSize = 0;
 
-    strcpy(tokens[tokenSize].lexeme, "programa_SOL");
-    tokens[tokenSize].type = INIT;
-
-    tokenSize++;
     while (1) {
         tokens[tokenSize] = getNextToken(inputFile);
 

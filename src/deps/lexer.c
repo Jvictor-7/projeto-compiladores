@@ -14,7 +14,7 @@
 
 int isNavigator(char* str) {
     char* time[] = {
-         "chrome", "edge", NULL
+         "navegador", NULL
     };
     for (int i = 0; time[i] != NULL; i++) {
         if (strcmp(str, time[i]) == 0) {
@@ -50,7 +50,7 @@ Token getNextToken(FILE* inputFile) {
     } while (c == ' ' || c == '\t' || c == '\n');
 
 
-    if (c == '/') {
+    while (c == '/') {
             int nextChar = fgetc(inputFile);
             if (nextChar == '/') {
                 
@@ -58,6 +58,8 @@ Token getNextToken(FILE* inputFile) {
                     c = fgetc(inputFile);
                     if(c == EOF) break;
                 }
+                c = fgetc(inputFile);
+
             }
             else {
                 ungetc(nextChar, inputFile);
@@ -78,6 +80,11 @@ Token getNextToken(FILE* inputFile) {
         return token;
     }
     
+    // if (c == '\n') {
+    //     token.type = NEWLINE;
+    //     strcpy(token.lexeme, "\n");
+    //     return token;
+    // }
 
 
     while (c != ' ' && c != '\t' && c != ';' && c != '\n' && c != EOF && index < MAX_TOKEN_LENGTH - 1) {
@@ -86,11 +93,6 @@ Token getNextToken(FILE* inputFile) {
     }
     token.lexeme[index] = '\0';
 
-    if (c == '\n') {
-        token.type = NEWLINE;
-        strcpy(token.lexeme, "\n");
-        return token;
-    }
 
     if(strcmp(token.lexeme,"link_pdf") == 0){
         token.type = LINK_PDF;
@@ -110,10 +112,9 @@ Token getNextToken(FILE* inputFile) {
     else if (isTime(token.lexeme)) {
         token.type = TIME;
     }
-    // else if(isInit(token.lexeme)) {
-    //     token.type = INIT;
-    // }
-
+    else if (!strcmp(token.lexeme, "programa_SOL")) {
+        token.type = INIT;
+    }
     else if(isNavigator(token.lexeme)){
         token.type = NAVIGATOR;
     }

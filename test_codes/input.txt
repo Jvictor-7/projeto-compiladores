@@ -1,0 +1,2 @@
+programa_SOL loop 1
+navegador sem_limite;
