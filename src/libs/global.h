@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <windows.h>
+#include <time.h>
 
 #define MAX_TOKEN_LENGTH 999
 #define SYMMAX 100
