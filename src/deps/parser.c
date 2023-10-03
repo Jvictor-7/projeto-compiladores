@@ -128,27 +128,27 @@ void present()
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
-            calcularTime(15);
+            calcularTime(0.3);
         }
-        if (strcmp(tempo.lexeme, "20_min") == 0) {
+        else if (strcmp(tempo.lexeme, "20_min") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
-            calcularTime(15);
+            calcularTime(20);
         }
-        if (strcmp(tempo.lexeme, "1_dia") == 0) {
+        else if (strcmp(tempo.lexeme, "1_dia") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
             calcularTime(1440);
         }
-        if (strcmp(tempo.lexeme, "2_dias") == 0) {
+        else if (strcmp(tempo.lexeme, "2_dias") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
             calcularTime(2880);
         }
-        if (strcmp(tempo.lexeme, "sem_limite") == 0) {
+        else if (strcmp(tempo.lexeme, "sem_limite") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
         }
@@ -193,25 +193,25 @@ void interact()
 
             calcularTime(15);
         }
-        if (strcmp(tempo.lexeme, "20_min") == 0) {
+        else if (strcmp(tempo.lexeme, "20_min") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
-            calcularTime(15);
+            calcularTime(20);
         }
-        if (strcmp(tempo.lexeme, "1_dia") == 0) {
+        else if (strcmp(tempo.lexeme, "1_dia") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
             calcularTime(1440);
         }
-        if (strcmp(tempo.lexeme, "2_dias") == 0) {
+        else if (strcmp(tempo.lexeme, "2_dias") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
             calcularTime(2880);
         }
-        if (strcmp(tempo.lexeme, "sem_limite") == 0) {
+        else if (strcmp(tempo.lexeme, "sem_limite") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
         }
@@ -254,25 +254,25 @@ void critique()
 
             calcularTime(15);
         }
-        if (strcmp(tempo.lexeme, "20_min") == 0) {
+        else if (strcmp(tempo.lexeme, "20_min") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
-            calcularTime(15);
+            calcularTime(20);
         }
-        if (strcmp(tempo.lexeme, "1_dia") == 0) {
+        else if (strcmp(tempo.lexeme, "1_dia") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
             calcularTime(1440);
         }
-        if (strcmp(tempo.lexeme, "2_dias") == 0) {
+        else if (strcmp(tempo.lexeme, "2_dias") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
             calcularTime(2880);
         }
-        if (strcmp(tempo.lexeme, "sem_limite") == 0) {
+        else if (strcmp(tempo.lexeme, "sem_limite") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
         }
@@ -324,25 +324,25 @@ void sequence()
 
             calcularTime(15);
         }
-        if (strcmp(tempo.lexeme, "20_min") == 0) {
+        else if (strcmp(tempo.lexeme, "20_min") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
-            calcularTime(15);
+            calcularTime(20);
         }
-        if (strcmp(tempo.lexeme, "1_dia") == 0) {
+        else if (strcmp(tempo.lexeme, "1_dia") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
             calcularTime(1440);
         }
-        if (strcmp(tempo.lexeme, "2_dias") == 0) {
+        else if (strcmp(tempo.lexeme, "2_dias") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
 
             calcularTime(2880);
         }
-        if (strcmp(tempo.lexeme, "sem_limite") == 0) {
+        else if (strcmp(tempo.lexeme, "sem_limite") == 0) {
             snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
             system(command);
         }
@@ -350,9 +350,39 @@ void sequence()
         recognize(SEMICOLON);
     }
     else if(lookahead.type == TIME){
-    printf("%s\n", lookahead.lexeme);
+        printf("%s\n", lookahead.lexeme);
 
-        timeNosso();
+        Token tempo = timeNosso();
+
+        if (strcmp(tempo.lexeme, "15_min") == 0) {
+            snprintf(command, sizeof(command), "start chrome");
+            system(command);
+
+            calcularTime(15);
+        }
+        else if (strcmp(tempo.lexeme, "20_min") == 0) {
+            snprintf(command, sizeof(command), "start chrome");
+            system(command);
+
+            calcularTime(20);
+        }
+        else if (strcmp(tempo.lexeme, "1_dia") == 0) {
+            snprintf(command, sizeof(command), "start chrome");
+            system(command);
+
+            calcularTime(1440);
+        }
+        else if (strcmp(tempo.lexeme, "2_dias") == 0) {
+            snprintf(command, sizeof(command), "start chrome");
+            system(command);
+
+            calcularTime(2880);
+        }
+        else if (strcmp(tempo.lexeme, "sem_limite") == 0) {
+            snprintf(command, sizeof(command), "start chrome");
+            system(command);
+        }
+
         recognize(SEMICOLON);
         present();
 
