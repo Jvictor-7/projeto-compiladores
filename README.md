@@ -32,7 +32,7 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
 <table>
   <tr>
     <td align="center">
-      <a href="#">
+      <a>
         <img src="https://avatars.githubusercontent.com/u/81593768?v=4" width="100px;" alt="Foto do Iuri Silva no GitHub"/><br>
         <sub>
           <b>João Victor Cavalcante Lima</b>
@@ -52,7 +52,7 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
       </a>
     </td>
     <td align="center">
-      <a href="#">
+      <a>
         <img src="https://avatars.githubusercontent.com/u/91622210?v=4" width="100px;" alt="Foto do Steve Jobs"/><br>
         <sub>
           <b>Bruno Luiz Florentino Silva</b>
@@ -62,7 +62,7 @@ Agradecemos às seguintes pessoas que contribuíram para este projeto:
       </a>
     </td>
     <td align="center">
-      <a href="#">
+      <a>
         <img src="https://avatars.githubusercontent.com/u/106382466?v=4" width="100px;" alt="Foto do Steve Jobs"/><br>
         <sub>
           <b>Priscila Teodório Da Silva</b>
