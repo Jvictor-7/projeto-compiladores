@@ -21,8 +21,8 @@ Windows:
 - Clonar o repositório
 - Acesse o diretório pelo terminal onde o repositório foi clonado
 - Execute o comando mingw32-make
-- Abra o arquivo teste, nele você deve escrever os terminais da gramática (o interpretador suporta comentarios utilizando //)
-- Rode no terminal o comando ./teste
+- Abra o arquivo input.txt localizado em test_codes, nele você deve escrever os terminais da gramática (o interpretador suporta comentarios utilizando //)
+- Rode no terminal o comando programa_SOL test_codes/input (dependendo do terminal que estiver executando pode ser necessário começar com um ./)
 ```
 
 ## 🤝 Colaboradores
