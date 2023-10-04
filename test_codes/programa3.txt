@@ -1,0 +1,10 @@
+programa_SOL loop 1
+// Padrão EPIC
+// fase Explore - Explorar do Padrão EPIC
+navegador 20_min; // navegar na Web 20 min
+// fase Present - Apresentar do Padrão EPIC - via videoconferência meet 20 min
+// fase Interact – Interagir do Padrão EPIC - via videoconferência meet 20 min
+navegador link_videoconferencia 20_min;
+// fase Critique – Crítica  do Padrão EPIC – via videoconferência meet 20 min 
+navegador link_videoconferencia 20_min;
+navegador link_videoconferencia 20_min; // navegar na Web 20 min
