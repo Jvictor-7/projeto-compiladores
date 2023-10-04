@@ -57,6 +57,7 @@ int main(int argc, char *argv[]) {
     // --- PARSER --- 
     
     parser(tokens);
+    execute(tokens);
     
     // --- END PARSER ---
 

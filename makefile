@@ -11,7 +11,7 @@ CFLAGS = -Wall -Wextra -Ideps
 SRCS = src/deps/error.c \
        src/deps/lexer.c \
        src/deps/parser.c \
-       src/deps/execute.c \
+	   src/deps/execute.c \
 	   src/main.c \
        
 

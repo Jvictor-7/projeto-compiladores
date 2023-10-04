@@ -38,38 +38,6 @@ Token timeNosso()
         return aux;
     }
 }
-
-void verificaTempo(Token tempo) {
-    if (strcmp(tempo.lexeme, "15_min") == 0) {
-            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
-            system(command);
-
-            calcularTime(15);
-        }
-        else if (strcmp(tempo.lexeme, "20_min") == 0) {
-            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
-            system(command);
-
-            calcularTime(1);
-        }
-        else if (strcmp(tempo.lexeme, "1_dia") == 0) {
-            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
-            system(command);
-
-            calcularTime(1440);
-        }
-        else if (strcmp(tempo.lexeme, "2_dias") == 0) {
-            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
-            system(command);
-
-            calcularTime(2880);
-        }
-        else if (strcmp(tempo.lexeme, "sem_limite") == 0) {
-            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
-            system(command);
-        }
-}
-
 void calcularTime(int limite) {
         time_t startTime = time(NULL); // Obter a hora atual
         int minutos = 0;
@@ -107,6 +75,39 @@ void calcularTime(int limite) {
             }
         }
 }
+
+void verificaTempo(Token tempo) {
+    if (strcmp(tempo.lexeme, "15_min") == 0) {
+            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
+            system(command);
+
+            calcularTime(15);
+        }
+        else if (strcmp(tempo.lexeme, "20_min") == 0) {
+            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
+            system(command);
+
+            calcularTime(20);
+        }
+        else if (strcmp(tempo.lexeme, "1_dia") == 0) {
+            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
+            system(command);
+
+            calcularTime(1440);
+        }
+        else if (strcmp(tempo.lexeme, "2_dias") == 0) {
+            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
+            system(command);
+
+            calcularTime(2880);
+        }
+        else if (strcmp(tempo.lexeme, "sem_limite") == 0) {
+            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
+            system(command);
+        }
+}
+
+
 
 void browser2()
 {
@@ -286,6 +287,7 @@ void execute(Token *c)
 {
     tokens2 = c;
     lookahead2 = getToken2();
+    
     programa_SOL2();
 
 }

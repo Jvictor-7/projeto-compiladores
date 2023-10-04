@@ -210,5 +210,6 @@ void parser(Token *c)
     lookahead = getToken();
     programa_SOL();
 
-    execute();
+    
+    
 }
