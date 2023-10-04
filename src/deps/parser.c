@@ -1,19 +1,7 @@
 #include "../libs/global.h"
 
-#define NUMBER1 2
-
 Token lookahead;
 Token *tokens;
-
-char *link_pdf = "https://bu.ufsc.br/ArtigoCientifico.pdf";
-char *link_video = "https://www.youtube.com/";
-char *link_videoconferencia = "https://meet.google.com/";
-char *link_whatsapp = "https://web.whatsapp.com/";
-char *link_email = "https://mail.google.com/mail/u/0/#inbox?compose=new";
-
-const char *endChrome = "taskkill /F /IM chrome.exe";
-
-char command[256];
 
 int indexToken = -1;
 
@@ -27,105 +15,36 @@ void recognize(int element)
 {
     if(lookahead.type == element)
     {
-        printf("%s\n", lookahead.lexeme);
-
         lookahead = getToken();
+    }
+    else{
+        if(element == SEMICOLON){
+            error("erro de sintaxe", lookahead.line - 1);
+        }
+        error("erro de sintaxe", lookahead.line);
     }
 }
 
-Token timeNosso()
+void checkTime()
 {
     if(lookahead.type == TIME){
-        printf("%s\n", lookahead.lexeme);
-        Token aux = lookahead;
         lookahead = getToken();
-        return aux;
     }
     else
     {
-        error("erro de síntaxe");
+        error("erro de sintaxe", lookahead.line);
     }
-}
-
-void verificaTempo(Token tempo) {
-    if (strcmp(tempo.lexeme, "15_min") == 0) {
-            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
-            system(command);
-
-            calcularTime(15);
-        }
-        else if (strcmp(tempo.lexeme, "20_min") == 0) {
-            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
-            system(command);
-
-            calcularTime(1);
-        }
-        else if (strcmp(tempo.lexeme, "1_dia") == 0) {
-            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
-            system(command);
-
-            calcularTime(1440);
-        }
-        else if (strcmp(tempo.lexeme, "2_dias") == 0) {
-            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
-            system(command);
-
-            calcularTime(2880);
-        }
-        else if (strcmp(tempo.lexeme, "sem_limite") == 0) {
-            snprintf(command, sizeof(command), "start chrome %s", link_videoconferencia);
-            system(command);
-        }
-}
-
-void calcularTime(int limite) {
-        time_t startTime = time(NULL); // Obter a hora atual
-        int minutos = 0;
-
-        while (minutos < limite) { // Contador de minutos até o limite de tempo
-            time_t currentTime = time(NULL);
-            int segundosPassados = difftime(currentTime, startTime);
-
-            if (segundosPassados >= 60) {
-                startTime = currentTime;
-                minutos++;
-                printf("Ja se passaram %d Minutos...\n", minutos);
-
-                if (minutos == limite - 5) {
-                    const char *message = "Em 5 minutos sua reuniao sera encerrada automaticamente.";
-                    const char *title = "Alerta";
-                    
-                    MessageBox(NULL, message, title, MB_ICONWARNING | MB_OK);
-                }
-                if (minutos == limite - 1) {
-                    const char *message = "Em 1 minuto sua reuniao sera encerrada automaticamente.";
-                    const char *title = "Alerta";
-                    
-                    MessageBox(NULL, message, title, MB_ICONWARNING | MB_OK);
-                }
-                if (minutos == limite) {
-                    const char *message = "Reuniao encerrada!.";
-                    const char *title = "Alerta";
-                    
-                    MessageBox(NULL, message, title, MB_ICONWARNING | MB_OK);
-
-                    snprintf(command, sizeof(command), "%s", endChrome);
-                    system(command);
-                }
-            }
-        }
 }
 
 void browser()
 {
     if(lookahead.type == NAVIGATOR)
     {
-        printf("%s\n", lookahead.lexeme);
         lookahead = getToken();
     }
     else
     {
-        error("erro de síntaxe");
+        error("erro de sintaxe", lookahead.line);
     }
 }
 
@@ -134,65 +53,49 @@ void present()
     browser();
 
     if(lookahead.type == LINK_PDF){
-        printf("%s\n", lookahead.lexeme);
 
         lookahead = getToken();
         recognize(SEMICOLON);
-
-        snprintf(command, sizeof(command), "start chrome %s", link_pdf);
-        system(command);
     }
     else if(lookahead.type == LINK_VIDEO){
-        printf("%s\n", lookahead.lexeme);
 
         lookahead = getToken();
         recognize(SEMICOLON);
-
-        snprintf(command, sizeof(command), "start chrome %s", link_video);
-        system(command);
     }
     else if(lookahead.type == LINK_VIDEOCONFERENCIA){
+
         lookahead = getToken();
-
-        Token tempo = timeNosso();
-
-        verificaTempo(tempo);
-
+        checkTime();
         recognize(SEMICOLON);
+    }
+    else{
+        error("erro de sintaxe", lookahead.line);
     }
 }
 void interact()
 {
     browser();
 
-    printf("teste: %s\n", lookahead.lexeme);
-
     if(lookahead.type == LINK_WHATSAPP){
-        printf("%s\n", lookahead.lexeme);
 
         lookahead = getToken();
         recognize(SEMICOLON);
-
-        snprintf(command, sizeof(command), "start chrome %s", link_whatsapp);
-        system(command);
     }
     else if(lookahead.type == LINK_EMAIL){
-        printf("%s\n", lookahead.lexeme);
 
         lookahead = getToken();
         recognize(SEMICOLON);
-
-        snprintf(command, sizeof(command), "start chrome %s", link_email);
-        system(command);
     }
     else if(lookahead.type == LINK_VIDEOCONFERENCIA){
+
         lookahead = getToken();
 
-        Token tempo = timeNosso();
-
-        verificaTempo(tempo);
+        checkTime();
 
         recognize(SEMICOLON);
+    }
+    else{
+        error("erro de sintaxe", lookahead.line);
     }
 }
 void critique()
@@ -200,31 +103,24 @@ void critique()
     browser();
 
     if(lookahead.type == LINK_WHATSAPP){
-        printf("%s\n", lookahead.lexeme);
 
         lookahead = getToken();
         recognize(SEMICOLON);
-
-        snprintf(command, sizeof(command), "start chrome %s", link_whatsapp);
-        system(command);
     }
     else if(lookahead.type == LINK_EMAIL){
-        printf("%s\n", lookahead.lexeme);
 
         lookahead = getToken();
         recognize(SEMICOLON);
-
-        snprintf(command, sizeof(command), "start chrome %s", link_email);
-        system(command);
     }
     else if(lookahead.type == LINK_VIDEOCONFERENCIA){
+
         lookahead = getToken();
 
-        Token tempo = timeNosso();
-
-        verificaTempo(tempo);
-
+        checkTime();
         recognize(SEMICOLON);
+    }
+    else{
+        error("erro de sintaxe", lookahead.line);
     }
 }
 
@@ -233,44 +129,30 @@ void sequence()
     browser();
 
     if(lookahead.type == LINK_PDF){
-        printf("%s\n", lookahead.lexeme);
         lookahead = getToken();
         recognize(SEMICOLON);
-
-        snprintf(command, sizeof(command), "start chrome %s", link_pdf);
-        system(command);
     }
     else if(lookahead.type == LINK_VIDEO){
-        printf("%s\n", lookahead.lexeme);
 
         lookahead = getToken();
         recognize(SEMICOLON);
-
-        snprintf(command, sizeof(command), "start chrome %s", link_video);
-        system(command);
     }
     else if(lookahead.type == LINK_WHATSAPP){
-        printf("%s\n", lookahead.lexeme);
 
         lookahead = getToken();
         recognize(SEMICOLON);
-
-        snprintf(command, sizeof(command), "start chrome %s", link_whatsapp);
-        system(command);
     }
     else if(lookahead.type == LINK_VIDEOCONFERENCIA){
+
         lookahead = getToken();
 
-        Token tempo = timeNosso();
-
-        verificaTempo(tempo);
+        checkTime();
 
         recognize(SEMICOLON);
     }
     else if(lookahead.type == TIME){
-        Token tempo = timeNosso();
 
-        verificaTempo(tempo);
+        checkTime();
 
         recognize(SEMICOLON);
         present();
@@ -279,46 +161,45 @@ void sequence()
 
         critique();
     }
+    else{
+        error("erro de sintaxe", lookahead.line);
+    }
 }
 
 void repeat()
 {
     if(lookahead.type == NUMBER)
     {
-        printf("%s\n", lookahead.lexeme);
         lookahead = getToken();
-        recognize(NEWLINE);
         sequence();
     }
     else
     {
-        error("erro de síntaxe");
+        error("erro de sintaxe", lookahead.line);
     }
 }
 
 void loop(){
     if(lookahead.type == LOOP)
     {
-        printf("%s\n", lookahead.lexeme);
         lookahead = getToken();
         repeat();
     }
     else
     {
-        error("erro de síntaxe");
+        error("erro de sintaxe", lookahead.line);
     }
 }
 
 void programa_SOL(){
     if(lookahead.type == INIT)
     {
-        printf("%s\n", lookahead.lexeme);
         lookahead = getToken();
         loop();
     }
     else
     {
-        error("erro de síntaxe");
+        error("erro de sintaxe", lookahead.line);
     }
 }
 
@@ -327,7 +208,7 @@ void parser(Token *c)
     tokens = c;
 
     lookahead = getToken();
-    printf("%s\n", tokens[3].lexeme);
     programa_SOL();
 
+    execute();
 }

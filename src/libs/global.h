@@ -34,6 +34,7 @@ enum TokenType {
 typedef struct Token {
     enum TokenType type;
     char lexeme[MAX_TOKEN_LENGTH];
+    int line;
 } Token;
 
 

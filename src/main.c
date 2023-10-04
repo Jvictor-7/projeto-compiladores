@@ -18,8 +18,11 @@ char* tokenName[] = {
     "LINK_EMAIL"
 };
 
-int main() {
-    FILE* inputFile = fopen("test_codes/programa3.txt", "r");
+int main(int argc, char *argv[]) {
+    char *filename = argv[1];
+    printf("filename : %s\n", filename);
+    strcat(filename, ".txt");
+    FILE* inputFile = fopen(filename, "r");
     if (inputFile == NULL) {
         perror("Error opening file");
         return 1;
@@ -31,6 +34,7 @@ int main() {
 
     while (1) {
         tokens[tokenSize] = getNextToken(inputFile);
+        printf("Line : %d \t", tokens[tokenSize].line);
 
         if (tokens[tokenSize].type == END_OF_PROGRAM) {
             printf("End of program.\n");

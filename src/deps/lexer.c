@@ -1,4 +1,5 @@
 #include "../libs/global.h"
+int line = 1;
 
 // int isInit(char* str) {
 //     char* time[] = {
@@ -44,9 +45,13 @@ Token getNextToken(FILE* inputFile) {
     int c;
     int index = 0;
 
-    
+
     do {
         c = fgetc(inputFile);
+        if(c == '\n')
+        {
+            line++;
+        }
     } while (c == ' ' || c == '\t' || c == '\n');
 
 
@@ -58,6 +63,10 @@ Token getNextToken(FILE* inputFile) {
                     c = fgetc(inputFile);
                     if(c == EOF) break;
                 }
+                if(c == '\n')
+                {
+                    line++;
+                }
                 c = fgetc(inputFile);
 
             }
@@ -65,7 +74,7 @@ Token getNextToken(FILE* inputFile) {
                 ungetc(nextChar, inputFile);
             }
     }
-
+    token.line = line;
     if (c == EOF) {
         token.type = END_OF_PROGRAM;
         strcpy(token.lexeme, "");
@@ -122,8 +131,6 @@ Token getNextToken(FILE* inputFile) {
     {
         token.type = LOOP;
     }
-    
-    
     else {
        
         int isNumber = 1;

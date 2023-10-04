@@ -1,7 +1,7 @@
 #include "../libs/global.h"
 
-void error(char *message)
+void error(char *message, int line)
 {
-    fprintf(stderr, "%s\n", message);
+    fprintf(stderr, "%s (LINHA : %d)\n", message, line);
     exit(TRUE);
 }
